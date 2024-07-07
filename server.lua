@@ -1,9 +1,9 @@
 local onDutyPlayers = {} 
 local dutyStartTime = {} 
 
-local REQUIRED_PERMISSION = 'duty.view' -- To View The On Duty System Example: add_ace group.(your group) duty.view allow
+local REQUIRED_PERMISSION = 'duty.view'
 
-local WEBHOOK_URL = 'https://discord.com/api/webhooks/1258483534432174081/-1S33mhkLecm8ay7IRtonnvGqpHw3jQshvqsSo9WStdXFzzaItF1DzSDTi5XXbbMNNc_'
+local WEBHOOK_URL = 'YOUR_WEBHOOK_HERE'
 
 function GetPlayerDiscordID(player)
     for _, identifier in ipairs(GetPlayerIdentifiers(player)) do
@@ -125,7 +125,6 @@ RegisterCommand('kickoffduty', function(source, args, rawCommand)
 end, false)
 
 
--- /onduty command to display on-duty players
 RegisterCommand('onduty', function(source, args, rawCommand)
     local player = source
 
