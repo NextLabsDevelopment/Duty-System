@@ -32,12 +32,12 @@ RegisterCommand('clockin', function(source, args, rawCommand)
             local playerID = player
             local discordID = GetPlayerDiscordID(player)
 
-            TriggerClientEvent('chatMessage', player, '^2You have clocked in as ' .. department .. ' (Badge ' .. badgeNumber .. ').')
+            TriggerClientEvent('chatMessage', player, '^2You have clocked in as ' .. department .. ' (Callsign ' .. badgeNumber .. ').')
 
             local timestamp = os.date('%Y-%m-%d %H:%M:%S')
             local embed = {
                 title = ':green_circle: Clock-In',
-                description = playerName .. ' (' .. department .. ', Badge ' .. badgeNumber .. ') has clocked in. (<@' .. discordID .. '>)',
+                description = '**Officer**: '.. playerName .. ' \n\n**Department**: ' .. department .. ' \n\n**Callsign**: (' .. badgeNumber .. ') has clocked in. \n\n **(<@' .. discordID .. '>)**',
                 color = 65280,
                 footer = { text = 'Player ID: ' .. playerID .. ' | ' .. timestamp }
             }
@@ -72,7 +72,7 @@ RegisterCommand('clockout', function(source, args, rawCommand)
             local timestamp = os.date('%Y-%m-%d %H:%M:%S')
             local embed = {
                 title = ':red_circle: Clock-Out',
-                description = playerName .. ' has clocked out. (Duration: ' .. durationFormatted .. ') (<@' .. discordID .. '>)',
+                description = '**Officer**: '.. playerName .. ' has clocked out. \n\n**Duration**: ' .. durationFormatted .. ' \n\n**(<@' .. discordID .. '>)**',
                 color = 16711680,
                 footer = { text = 'Player ID: ' .. playerID .. ' | ' .. timestamp }
             }
