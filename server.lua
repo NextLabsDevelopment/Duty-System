@@ -1,9 +1,8 @@
 local onDutyPlayers = {} 
 local dutyStartTime = {} 
 
-local REQUIRED_PERMISSION = 'duty.view'
-
-local WEBHOOK_URL = 'YOUR_WEBHOOK_HERE'
+local REQUIRED_PERMISSION = Config.ViewAce
+local WEBHOOK_URL = Config.WEBHOOK_URL
 
 function GetPlayerDiscordID(player)
     for _, identifier in ipairs(GetPlayerIdentifiers(player)) do
@@ -24,7 +23,7 @@ RegisterCommand('clockin', function(source, args, rawCommand)
         return
     end
 
-    if IsPlayerAceAllowed(player, 'duty.clockin') then
+    if IsPlayerAceAllowed(player, Config.DutyAce) then
         if not onDutyPlayers[player] then
             onDutyPlayers[player] = { department = department, badge = badgeNumber }
             dutyStartTime[player] = os.time()
@@ -54,7 +53,7 @@ end, false)
 RegisterCommand('clockout', function(source, args, rawCommand)
     local player = source
 
-    if IsPlayerAceAllowed(player, 'duty.clockout') then
+    if IsPlayerAceAllowed(player, Config.OffDutyACE) then
         if onDutyPlayers[player] then
             local startTime = dutyStartTime[player]
             local currentTime = os.time()
@@ -96,7 +95,7 @@ RegisterCommand('kickoffduty', function(source, args, rawCommand)
         return
     end
 
-    if not IsPlayerAceAllowed(player, 'duty.kickoff') then
+    if not IsPlayerAceAllowed(player, Config.KickAce) then
         TriggerClientEvent('chatMessage', player, '^3You do not have permission to use this command.')
         return
     end
