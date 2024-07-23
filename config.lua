@@ -1,5 +1,5 @@
 Config {
-  ViewAce = ""
-  KickAce =
-  DutyAce = 
+  ViewAce = "duty.view",
+  KickAce = "",
+  DutyAce = "duty.clockin"
 }
