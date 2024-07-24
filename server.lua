@@ -1,9 +1,8 @@
 local onDutyPlayers = {} 
 local dutyStartTime = {} 
 
-local REQUIRED_PERMISSION = 'duty.view'
-
-local WEBHOOK_URL = 'YOUR_WEBHOOK_HERE'
+local REQUIRED_PERMISSION = Config.ViewAce
+local WEBHOOK_URL = Config.WEBHOOK_URL
 
 function GetPlayerDiscordID(player)
     for _, identifier in ipairs(GetPlayerIdentifiers(player)) do
@@ -24,7 +23,7 @@ RegisterCommand('clockin', function(source, args, rawCommand)
         return
     end
 
-    if IsPlayerAceAllowed(player, 'duty.clockin') then
+    if IsPlayerAceAllowed(player, Config.DutyAce) then
         if not onDutyPlayers[player] then
             onDutyPlayers[player] = { department = department, badge = badgeNumber }
             dutyStartTime[player] = os.time()
@@ -33,12 +32,12 @@ RegisterCommand('clockin', function(source, args, rawCommand)
             local playerID = player
             local discordID = GetPlayerDiscordID(player)
 
-            TriggerClientEvent('chatMessage', player, '^2You have clocked in as ' .. department .. ' (Badge ' .. badgeNumber .. ').')
+            TriggerClientEvent('chatMessage', player, '^2You have clocked in as ' .. department .. ' (Callsign ' .. badgeNumber .. ').')
 
             local timestamp = os.date('%Y-%m-%d %H:%M:%S')
             local embed = {
                 title = ':green_circle: Clock-In',
-                description = playerName .. ' (' .. department .. ', Badge ' .. badgeNumber .. ') has clocked in. (<@' .. discordID .. '>)',
+                description = '**Officer**: '.. playerName .. ' \n\n**Department**: ' .. department .. ' \n\n**Callsign**: (' .. badgeNumber .. ') has clocked in. \n\n **(<@' .. discordID .. '>)**',
                 color = 65280,
                 footer = { text = 'Player ID: ' .. playerID .. ' | ' .. timestamp }
             }
@@ -54,7 +53,7 @@ end, false)
 RegisterCommand('clockout', function(source, args, rawCommand)
     local player = source
 
-    if IsPlayerAceAllowed(player, 'duty.clockout') then
+    if IsPlayerAceAllowed(player, Config.OffDutyACE) then
         if onDutyPlayers[player] then
             local startTime = dutyStartTime[player]
             local currentTime = os.time()
@@ -73,7 +72,7 @@ RegisterCommand('clockout', function(source, args, rawCommand)
             local timestamp = os.date('%Y-%m-%d %H:%M:%S')
             local embed = {
                 title = ':red_circle: Clock-Out',
-                description = playerName .. ' has clocked out. (Duration: ' .. durationFormatted .. ') (<@' .. discordID .. '>)',
+                description = '**Officer**: '.. playerName .. ' has clocked out. \n\n**Duration**: ' .. durationFormatted .. ' \n\n**(<@' .. discordID .. '>)**',
                 color = 16711680,
                 footer = { text = 'Player ID: ' .. playerID .. ' | ' .. timestamp }
             }
@@ -96,7 +95,7 @@ RegisterCommand('kickoffduty', function(source, args, rawCommand)
         return
     end
 
-    if not IsPlayerAceAllowed(player, 'duty.kickoff') then
+    if not IsPlayerAceAllowed(player, Config.KickAce) then
         TriggerClientEvent('chatMessage', player, '^3You do not have permission to use this command.')
         return
     end
