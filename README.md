@@ -7,7 +7,7 @@ The FiveM Duty System is a standalone resource designed for roleplaying servers.
 ### Features
 
 1. **Clock-In and Clock-Out Commands:**
-   - Players can use `/clockin [department] [badge]` to start their duty shift.
+   - Players can use `/duty [department] [badge]` to start their duty shift.
    - `/clockout` allows players to end their duty shift and calculates the duration.
 
 2. **On-Duty Status:**
