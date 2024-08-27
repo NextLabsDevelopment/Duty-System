@@ -14,7 +14,7 @@ function GetPlayerDiscordID(player)
     return nil
 end
 
-RegisterCommand('clockin', function(source, args, rawCommand)
+RegisterCommand('duty', function(source, args, rawCommand)
     local player = tonumber(source)
     local department = args[1]
     local badgeNumber = args[2]
