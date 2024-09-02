@@ -41,4 +41,4 @@ The FiveM Duty System is a standalone resource designed for roleplaying servers.
 
 ### Customization
 
-Feel free to customize the system to match your server's specific needs. You can modify messages, add more departments, or integrate additional features.
+Feel free to customize the system to match your server's specific needs.
