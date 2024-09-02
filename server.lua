@@ -88,6 +88,36 @@ RegisterCommand('duty', function(source, args, rawCommand)
     end
 end, false)
 
+RegisterCommand('dutytime', function(source, args, rawCommand)
+    local player = tonumber(source)
+
+    if onDutyPlayers[player] then
+        local startTime = dutyStartTime[player]
+        local currentTime = os.time()
+        local elapsedTime = currentTime - startTime
+
+        local hours = math.floor(elapsedTime / 3600)
+        local minutes = math.floor((elapsedTime % 3600) / 60)
+        local seconds = elapsedTime % 60
+
+        local timeString = string.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+        TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+            type = 'info',
+            text = 'You have been on duty for ' .. timeString .. '.',
+            length = 5000,
+            style = { ['background-color'] = '#0000FF', ['color'] = '#FFFFFF' }
+        })
+    else
+        TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+            type = 'error',
+            text = 'You are not on duty.',
+            length = 5000,
+            style = { ['background-color'] = '#FF0000', ['color'] = '#FFFFFF' }
+        })
+    end
+end, false)
+
 RegisterCommand('clockout', function(source, args, rawCommand)
     local player = tonumber(source)
 
