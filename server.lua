@@ -88,6 +88,52 @@ RegisterCommand('clockin', function(source, args, rawCommand)
     end
 end, false)
 
+RegisterCommand('911', function(source, args, rawCommand)
+    local player = tonumber(source)
+    local reason = table.concat(args, ' ')
+    local coords = GetEntityCoords(GetPlayerPed(player))
+    local nearestPostal = getNearestPostal(coords)
+
+    if reason == '' then
+        TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+            type = 'error',
+            text = 'Usage: /911 [reason]',
+            length = 5000,
+            style = { ['background-color'] = '#FF0000', ['color'] = '#FFFFFF' }
+        })
+        return
+    end
+
+    for clockedInPlayer, info in pairs(onDutyPlayers) do
+        TriggerClientEvent('nd-notify:client:sendAlert', clockedInPlayer, { 
+            type = 'info',
+            text = '911 Call: ' .. reason .. ' | Postal: ' .. nearestPostal,
+            length = 10000,
+            style = { ['background-color'] = '#0000FF', ['color'] = '#FFFFFF' }
+        })
+
+        local playerName = GetPlayerName(player)
+        local timestamp = os.date('%Y-%m-%d %H:%M:%S')
+
+        local embed = {
+            title = ':rotating_light: 911 Call Notification',
+            description = string.format(
+                '**%s** has reported an emergency.\n\n**Reason:** %s\n**Nearest Postal:** %s',
+                playerName,
+                reason,
+                nearestPostal
+            ),
+            color = 16711680,
+            fields = {
+                { name = 'Reported By', value = playerName, inline = true },
+                { name = 'Time', value = timestamp, inline = true },
+            },
+            footer = { text = 'Your Server Name - Logged by FiveM Server' }
+        }
+        PerformHttpRequest(WEBHOOK_URL, function(statusCode, response, headers) end, 'POST', json.encode({ embeds = { embed } }), { ['Content-Type'] = 'application/json' })
+    end
+end, false)
+
 RegisterCommand('dutytime', function(source, args, rawCommand)
     local player = tonumber(source)
 
