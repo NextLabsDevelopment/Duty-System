@@ -1,31 +1,30 @@
-# FiveM Duty System
+### FiveM Duty System Overview
 
-Description
+The FiveM Duty System is a simple, standalone resource perfect for roleplay servers. It helps manage on-duty status, logs important actions, and keeps everything organized for a smooth roleplay experience.
 
-The FiveM Duty System is a standalone resource designed for roleplaying servers. It provides essential features for managing on-duty status, logging duty-related actions, and ensuring smooth roleplay experiences for players.
+### Key Features
 
-### Features
+1. **Clock In/Out:**
+   - Use `/clockin [department] [callsign] [badge]` to start your shift.
+   - End your shift with `/clockout` and see how long you were on duty.
 
-1. **Clock-In and Clock-Out Commands:**
-   - Players can use `/duty [department] [badge]` to start their duty shift.
-   - `/clockout` allows players to end their duty shift and calculates the duration.
+2. **Check Who's On Duty:**
+   - Use `/onduty` to see who’s currently clocked in and their department.
 
-2. **On-Duty Status:**
-   - Players can check who is currently on duty using the `/onduty` command.
-   - The system tracks on-duty players and their respective departments.
+3. **Kick Off Duty:**
+   - Admins can remove someone from duty with `/kickoffduty [playerID]`.
+   - All actions are logged to a Discord channel for transparency.
 
-3. **Kick-Off Duty:**
-   - Admins or supervisors can use `/kickoffduty [playerID]` to remove a player from duty.
-   - Discord webhook logs capture these actions for transparency.
+4. **Duty Time:**
+   - Use `/dutytime` to check how long you’ve been on duty during your current shift.
 
-4. **Discord Webhook Logging:**
-   - All duty-related events (clock-in, clock-out, kick-off) are logged to a designated Discord channel.
-   - Webhook integration ensures real-time updates for staff members.
+5. **911 Command for On-Duty Cops:**
+   - On-duty cops can respond to emergency calls with the `/911` command.
 
 ### Installation
 
-1. Add the resource to your FiveM server resources folder.
-2. Update your `server.cfg` file:
+1. Add the resource to your FiveM server’s resources folder.
+2. Update your `server.cfg`:
    ```ini
    add_ace group.(group name) duty.view allow
    add_ace group.(group name) duty.kickoff allow
@@ -33,12 +32,12 @@ The FiveM Duty System is a standalone resource designed for roleplaying servers.
    add_ace group.(group name) duty.clockin allow
    ```
 
-### Usage
+### How to Use
 
-1. Players can use the specified commands to manage their duty status.
-2. Admins or supervisors with the appropriate permissions can kick players off duty.
-3. Check the Discord channel for duty-related logs.
+- Players use the commands to manage their duty status.
+- Admins with permissions can kick players off duty.
+- Duty logs are automatically sent to your Discord channel.
 
 ### Customization
 
-Feel free to customize the system to match your server's specific needs.
+You can easily tweak the system to suit your server's needs.
