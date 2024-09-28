@@ -21,69 +21,83 @@ RegisterCommand('clockin', function(source, args, rawCommand)
     local callsign = args[3]
 
     if not department or not badgeNumber or not callsign then
-        TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+        TriggerClientEvent('nd-notify:client:sendAlert', source, {
             type = 'error',
             text = 'Usage: /clockin [department] [badge] [callsign]',
             length = 5000,
-            style = { ['background-color'] = '#FF0000', ['color'] = '#FFFFFF' }
+            style = { ['background-color'] = ERROR_COLOR, ['color'] = TEXT_COLOR }
+        })
+        return
+    end
+
+    local isValidDepartment = false
+    for _, allowedDepartment in ipairs(Config.AllowedDepartments) do
+        if allowedDepartment:lower() == department:lower() then
+            isValidDepartment = true
+            break
+        end
+    end
+
+    if not isValidDepartment then
+        TriggerClientEvent('nd-notify:client:sendAlert', source, {
+            type = 'error',
+            text = 'Invalid department. Allowed departments: ' .. table.concat(Config.AllowedDepartments, ', '),
+            length = 5000,
+            style = { ['background-color'] = ERROR_COLOR, ['color'] = TEXT_COLOR }
         })
         return
     end
 
     if IsPlayerAceAllowed(player, Config.DutyAce) then
-        if not onDutyPlayers[player] then
-            onDutyPlayers[player] = { department = department, badge = badgeNumber, callsign = callsign }
-            dutyStartTime[player] = os.time()
-                
-            TriggerClientEvent('createDutyBlip', player, department, badgeNumber, callsign)
-            onDutyBlips[player] = true 
-
-            local playerName = GetPlayerName(player)
-            local discordID = GetPlayerDiscordID(player)
-            local timestamp = os.date('%Y-%m-%d %H:%M:%S')
-            local discordTimestamp = math.floor(os.time())
-
-            TriggerClientEvent('nd-notify:client:sendAlert', source, { 
-                type = 'success',
-                text = 'You have clocked in as ' .. department .. ' (Callsign ' .. callsign .. ', Badge ' .. badgeNumber .. ').',
-                length = 5000,
-                style = { ['background-color'] = '#00FF00', ['color'] = '#000000' }
-            })
-
-            local embed = {
-                title = ':green_circle: Clock-In Notification',
-                description = string.format(
-                    '**%s** (Callsign: %s, Badge: %s) has clocked in.\n\n**Player ID:** %d\n**Discord:** <@%s>',
-                    playerName,
-                    callsign,
-                    badgeNumber,
-                    player,
-                    discordID
-                ),
-                color = 65280,
-                fields = {
-                    { name = 'Department', value = department, inline = true },
-                    { name = 'Badge Number', value = badgeNumber, inline = true },
-                    { name = 'Callsign', value = callsign, inline = true },
-                    { name = 'Clock-In Time', value = string.format('<t:%d:t>', discordTimestamp), inline = true }
-                },
-                footer = { text = 'Your Server Name - Logged by FiveM Server' }
-            }
-            PerformHttpRequest(WEBHOOK_URL, function(statusCode, response, headers) end, 'POST', json.encode({ embeds = { embed } }), { ['Content-Type'] = 'application/json' })
-        else
-            TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+        if onDutyPlayers[player] then
+            TriggerClientEvent('nd-notify:client:sendAlert', source, {
                 type = 'error',
                 text = 'You are already on duty.',
                 length = 5000,
-                style = { ['background-color'] = '#FF0000', ['color'] = '#FFFFFF' }
+                style = { ['background-color'] = ERROR_COLOR, ['color'] = TEXT_COLOR }
             })
+            return
         end
+
+        onDutyPlayers[player] = { department = department, badge = badgeNumber, callsign = callsign }
+        dutyStartTime[player] = os.time()
+
+        TriggerClientEvent('createDutyBlip', player, department, badgeNumber, callsign)
+        onDutyBlips[player] = true
+
+        local playerName = GetPlayerName(player)
+        local discordID = GetPlayerDiscordID(player)
+        local discordTimestamp = math.floor(os.time())
+
+        TriggerClientEvent('nd-notify:client:sendAlert', source, {
+            type = 'success',
+            text = 'You have clocked in as ' .. department .. ' (Callsign: ' .. callsign .. ', Badge: ' .. badgeNumber .. ').',
+            length = 5000,
+            style = { ['background-color'] = SUCCESS_COLOR, ['color'] = DARK_TEXT_COLOR }
+        })
+
+        local embed = {
+            title = ':green_circle: Clock-In Notification',
+            description = string.format(
+                '**%s** (Callsign: %s, Badge: %s) has clocked in.\n\n**Player ID:** %d\n**Discord:** <@%s>',
+                playerName, callsign, badgeNumber, player, discordID
+            ),
+            color = 65280,
+            fields = {
+                { name = 'Department', value = department, inline = true },
+                { name = 'Badge Number', value = badgeNumber, inline = true },
+                { name = 'Callsign', value = callsign, inline = true },
+                { name = 'Clock-In Time', value = string.format('<t:%d:t>', discordTimestamp), inline = true }
+            },
+            footer = { text = 'Northern Bay RP - Logged by FiveM Server' }
+        }
+        PerformHttpRequest(Config.WEBHOOK_URL, function(statusCode, response, headers) end, 'POST', json.encode({ embeds = { embed } }), { ['Content-Type'] = 'application/json' })
     else
-        TriggerClientEvent('nd-notify:client:sendAlert', source, { 
+        TriggerClientEvent('nd-notify:client:sendAlert', source, {
             type = 'error',
             text = 'You do not have permission to use this command.',
             length = 5000,
-            style = { ['background-color'] = '#FF0000', ['color'] = '#FFFFFF' }
+            style = { ['background-color'] = ERROR_COLOR, ['color'] = TEXT_COLOR }
         })
     end
 end, false)
