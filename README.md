@@ -1,43 +1,18 @@
-### FiveM Duty System Overview
+# FiveM Duty System
 
-The FiveM Duty System is a simple, standalone resource perfect for roleplay servers. It helps manage on-duty status, logs important actions, and keeps everything organized for a smooth roleplay experience.
+This FiveM duty system allows players to clock in and out while keeping track of their duty time. Designed for role-playing servers, it integrates seamlessly with Discord for notifications and logging.
 
-### Key Features
+## Features:
+- **Clock In/Out**: Players can easily start and end their duty shifts.
+- **Duty Notifications**: Automatic messages sent to a specified Discord channel when players clock in or out.
+- **911 Call System**: On-duty players receive alerts for emergencies.
+- **Kick Off Duty**: Admins can remove players from duty if necessary.
+- **Duty Time Tracking**: Players can check how long they’ve been on duty.
 
-1. **Clock In/Out:**
-   - Use `/clockin [department] [callsign] [badge]` to start your shift.
-   - End your shift with `/clockout` and see how long you were on duty.
+## Usage:
+- Use `/clockin [department] [badge] [callsign]` to start your duty.
+- Use `/clockout` to end your shift.
+- Use `/911 [reason]` to alert all on-duty players in emergencies.
+- Use `/onduty` to see who is currently on duty.
 
-2. **Check Who's On Duty:**
-   - Use `/onduty` to see who’s currently clocked in and their department.
-
-3. **Kick Off Duty:**
-   - Admins can remove someone from duty with `/kickoffduty [playerID]`.
-   - All actions are logged to a Discord channel for transparency.
-
-4. **Duty Time:**
-   - Use `/dutytime` to check how long you’ve been on duty during your current shift.
-
-5. **911 Command for On-Duty Cops:**
-   - On-duty cops can respond to emergency calls with the `/911` command.
-
-### Installation
-
-1. Add the resource to your FiveM server’s resources folder.
-2. Update your `server.cfg`:
-   ```ini
-   add_ace group.(group name) duty.view allow
-   add_ace group.(group name) duty.kickoff allow
-   add_ace group.(group name) duty.clockout allow
-   add_ace group.(group name) duty.clockin allow
-   ```
-
-### How to Use
-
-- Players use the commands to manage their duty status.
-- Admins with permissions can kick players off duty.
-- Duty logs are automatically sent to your Discord channel.
-
-### Customization
-
-You can easily tweak the system to suit your server's needs.
+This system aims to enhance the roleplaying experience by keeping everything organized and easily accessible. Enjoy your time on the server!
