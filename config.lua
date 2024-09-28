@@ -4,4 +4,12 @@ Config = {
   KickAce = "duty.kickoff",
   DutyAce = "duty.clockin",
   OffDutyACE = "duty.clockout"
+  AllowedDepartments = {
+      "LAPD",
+      "BCSO",
+      "ARMY",
+      "MARINES",
+      "DHS",
+      "CIA",
+  }
 }
