@@ -13,6 +13,7 @@ This FiveM duty system allows players to clock in and out while keeping track of
 - Use `/clockin [department] [badge] [callsign]` to start your duty.
 - Use `/clockout` to end your shift.
 - Use `/911 [reason]` to alert all on-duty players in emergencies.
+- Use `/kickoffduty [id]` kick off someone from duty.
 - Use `/onduty` to see who is currently on duty.
 
 This system aims to enhance the roleplaying experience by keeping everything organized and easily accessible. Enjoy your time on the server!
