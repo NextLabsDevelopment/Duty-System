@@ -14,6 +14,11 @@ function GetPlayerDiscordID(player)
     return nil
 end
 
+local ERROR_COLOR = '#FF0000'
+local SUCCESS_COLOR = '#00FF00'
+local TEXT_COLOR = '#FFFFFF'
+local DARK_TEXT_COLOR = '#000000'
+
 RegisterCommand('clockin', function(source, args, rawCommand)
     local player = tonumber(source)
     local department = args[1]
