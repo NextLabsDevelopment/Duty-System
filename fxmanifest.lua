@@ -4,6 +4,7 @@ games { 'gta5' }
 author 'Next Dev Labs'
 description 'Free Standalone Duty System'
 version '1.2'
+lua54 'yes'
 
 shared_script 'config.lua'
 
