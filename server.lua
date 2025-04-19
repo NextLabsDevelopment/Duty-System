@@ -5,6 +5,10 @@ local onDutyBlips = {}
 local REQUIRED_PERMISSION = Config.ViewAce
 local WEBHOOK_URL = Config.WEBHOOK_URL
 
+exports('GetOnDutyOfficers', function()
+    return onDutyPlayers
+end)
+
 function GetPlayerDiscordID(player)
     for _, identifier in ipairs(GetPlayerIdentifiers(player)) do
         if identifier:match("discord") then
@@ -83,6 +87,7 @@ RegisterCommand('clockin', function(source, args, rawCommand)
     dutyStartTime[player] = os.time()
 
     TriggerClientEvent('createDutyBlip', player, departmentConfig.name, badgeNumber, callsign)
+
     onDutyBlips[player] = true
 
     local playerName = GetPlayerName(player)
@@ -186,7 +191,6 @@ RegisterCommand('clockout', function(source, args, rawCommand)
     }
     PerformHttpRequest(WEBHOOK_URL, function(statusCode, response, headers) end, 'POST', json.encode({ embeds = { embed } }), { ['Content-Type'] = 'application/json' })
 end, false)
-
 
 RegisterCommand('911', function(source, args, rawCommand)
     local player = tonumber(source)
